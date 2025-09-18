@@ -1,5 +1,6 @@
 import { Controller, useForm } from 'react-hook-form'
-import type { CadastroPessoalForm } from '@/types/CadastroPessoalForm'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { cadastroPessoalSchema, type CadastroPessoalSchemaType } from '@/schemas/cadastroPessoalSchema'
 import Button from '@/components/Button'
 import Fieldset from '@/components/Fieldset'
 import Form from '@/components/Form'
@@ -15,18 +16,19 @@ const Pessoal = () => {
         handleSubmit,
         formState: { errors },
         control,
-    } = useForm<CadastroPessoalForm>({
+    } = useForm<CadastroPessoalSchemaType>({
         mode: 'all',
+        resolver: zodResolver(cadastroPessoalSchema),
         defaultValues: {
             nome: '',
             email: '',
             telefone: '',
             senha: '',
             senhaVerificada: '',
-        }
+        },
     })
 
-    const aoSubmeter = (dados: CadastroPessoalForm) => {
+    const aoSubmeter = (dados: CadastroPessoalSchemaType) => {
         console.log(dados)
     }
 
