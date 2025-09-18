@@ -1,7 +1,4 @@
-import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { validarEmail } from '@/utils/validarEmail'
-import { validarSenha } from '@/utils/validarSenha'
 import type { CadastroPessoalForm } from '@/types/CadastroPessoalForm'
 import Button from '@/components/Button'
 import Fieldset from '@/components/Fieldset'
@@ -16,9 +13,8 @@ const Pessoal = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitSuccessful },
+        formState: { errors },
         control,
-        reset,
     } = useForm<CadastroPessoalForm>({
         mode: 'all',
         defaultValues: {
@@ -29,10 +25,6 @@ const Pessoal = () => {
             senhaVerificada: '',
         }
     })
-
-    useEffect(() => {
-        reset()
-    }, [isSubmitSuccessful, reset])
 
     const aoSubmeter = (dados: CadastroPessoalForm) => {
         console.log(dados)
@@ -49,13 +41,7 @@ const Pessoal = () => {
                         placeholder="Digite seu nome completo"
                         type="text"
                         $error={!!errors.nome}
-                        {...register('nome', {
-                            required: 'O campo de nome é obrigatório',
-                            minLength: {
-                                value: 5,
-                                message: 'O nome deve ter pelo menos cinco caracteres',
-                            },
-                        })}
+                        {...register('nome')}
                     />
                     {errors.nome && (
                         <ErrorMessage>{errors.nome.message}</ErrorMessage>
@@ -68,10 +54,7 @@ const Pessoal = () => {
                         placeholder="Insira seu endereço de email"
                         type="email"
                         $error={!!errors.email}
-                        {...register('email', {
-                            required: 'O campo de email é obrigatório',
-                            validate: validarEmail,
-                        })}
+                        {...register('email')}
                     />
                     {errors.email && (
                         <ErrorMessage>{errors.email.message}</ErrorMessage>
@@ -112,13 +95,7 @@ const Pessoal = () => {
                         placeholder="Crie uma senha"
                         type="password"
                         $error={!!errors.senha}
-                        {...register('senha', {
-                            required: 'O campo de senha é obrigatório',
-                            minLength: {
-                                value: 6,
-                                message: 'A senha deve ter pelo menos seis caracteres',
-                            },
-                        })}
+                        {...register('senha')}
                     />
                     {errors.senha && (
                         <ErrorMessage>{errors.senha.message}</ErrorMessage>
@@ -133,10 +110,7 @@ const Pessoal = () => {
                         placeholder="Repita a senha anterior"
                         type="password"
                         $error={!!errors.senhaVerificada}
-                        {...register('senhaVerificada', {
-                            required: 'O campo de repita a senha é obrigatório',
-                            validate: validarSenha,
-                        })}
+                        {...register('senhaVerificada')}
                     />
                     {errors.senhaVerificada && (
                         <ErrorMessage>{errors.senhaVerificada.message}</ErrorMessage>
