@@ -7,3 +7,5 @@ export const cadastroPessoalSchema = z.object({
     senha: z.string(),
     senhaVerificada: z.string(),
 })
+
+export type CadastroPessoalSchemaType = z.infer<typeof cadastroPessoalSchema>
