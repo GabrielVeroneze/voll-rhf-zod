@@ -2,7 +2,14 @@ import { z } from 'zod'
 
 export const cadastroPessoalSchema = z
     .object({
-        nome: z.string().min(5, 'O nome deve ter pelo menos 5 caracteres'),
+        nome: z
+            .string()
+            .min(5, 'O nome deve ter pelo menos 5 caracteres')
+            .transform((val) => val
+                .split(' ')
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                .join(' ')
+            ),
         email: z
             .email('O email não é válido')
             .min(1, 'O campo é obrigatório')
