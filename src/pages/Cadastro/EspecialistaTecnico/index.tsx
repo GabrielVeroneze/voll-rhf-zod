@@ -26,6 +26,14 @@ const EspecialistaTecnico = () => {
         console.log(dados)
     }
 
+    const adicionarNovaEspecialidade = () => {
+        append({
+            especialidade: '',
+            anoConclusao: 0,
+            instituicao: '',
+        })
+    }
+
     return (
         <>
             <Titulo className="titulo">Agora, seus dados técnicos:</Titulo>
@@ -81,7 +89,11 @@ const EspecialistaTecnico = () => {
                     </div>
                 ))}
                 <ButtonContainer>
-                    <Button type="button" $variante="secundario">
+                    <Button
+                        type="button"
+                        onClick={adicionarNovaEspecialidade}
+                        $variante="secundario"
+                    >
                         Adicionar Especialidade
                     </Button>
                 </ButtonContainer>
