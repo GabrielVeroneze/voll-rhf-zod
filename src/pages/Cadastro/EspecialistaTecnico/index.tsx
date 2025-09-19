@@ -1,3 +1,5 @@
+import { useForm } from 'react-hook-form'
+import type { CadastroEspecialistaSchemaType } from '@/schemas/cadastroEspecialistaSchema'
 import Button from '@/components/Button'
 import ButtonContainer from '@/components/ButtonContainer'
 import Divisor from '@/components/Divisor'
@@ -9,16 +11,23 @@ import Label from '@/components/Label'
 import Titulo from '@/components/Titulo'
 
 const EspecialistaTecnico = () => {
+    const { register, handleSubmit } = useForm<CadastroEspecialistaSchemaType>()
+
+    const aoSubmeter = (dados: CadastroEspecialistaSchemaType) => {
+        console.log(dados)
+    }
+
     return (
         <>
             <Titulo className="titulo">Agora, seus dados técnicos:</Titulo>
-            <Form>
+            <Form onSubmit={handleSubmit(aoSubmeter)}>
                 <Fieldset>
                     <Label>CRM</Label>
                     <Input
                         id="campo-crm"
                         type="text"
                         placeholder="Insira seu número de registro"
+                        {...register('crm')}
                     />
                 </Fieldset>
                 <Divisor />
