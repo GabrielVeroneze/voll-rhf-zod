@@ -12,7 +12,7 @@ export const cadastroEspecialistaSchema = z.object({
                     .min(1, 'Preencha a sua especialidade'),
                 anoConclusao: z
                     .coerce
-                    .number('Insira um número')
+                    .number<number>('Insira um número')
                     .min(1, 'Preencha o seu ano de conclusão'),
                 instituicao: z
                     .string()
