@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { useFieldArray, useForm } from 'react-hook-form'
 import type { CadastroEspecialistaSchemaType } from '@/schemas/cadastroEspecialistaSchema'
 import Button from '@/components/Button'
 import ButtonContainer from '@/components/ButtonContainer'
@@ -11,7 +11,16 @@ import Label from '@/components/Label'
 import Titulo from '@/components/Titulo'
 
 const EspecialistaTecnico = () => {
-    const { register, handleSubmit } = useForm<CadastroEspecialistaSchemaType>()
+    const {
+        register,
+        handleSubmit,
+        control,
+    } = useForm<CadastroEspecialistaSchemaType>()
+
+    const { fields, append } = useFieldArray({
+        name: 'especialidades',
+        control: control,
+    })
 
     const aoSubmeter = (dados: CadastroEspecialistaSchemaType) => {
         console.log(dados)
@@ -31,33 +40,46 @@ const EspecialistaTecnico = () => {
                     />
                 </Fieldset>
                 <Divisor />
-                <Fieldset>
-                    <Label>Especialidade</Label>
-                    <Input
-                        id="campo-especialidade"
-                        type="text"
-                        placeholder="Qual sua especialidade?"
-                    />
-                </Fieldset>
-                <FormContainer>
-                    <Fieldset>
-                        <Label>Ano de conclusão</Label>
-                        <Input
-                            id="campo-ano-conclusao"
-                            type="text"
-                            placeholder="2005"
-                        />
-                    </Fieldset>
-                    <Fieldset>
-                        <Label>Instituição de ensino</Label>
-                        <Input
-                            id="campo-instituicao-ensino"
-                            type="text"
-                            placeholder="USP"
-                        />
-                    </Fieldset>
-                </FormContainer>
-                <Divisor />
+                {fields.map((field, index) => (
+                    <div key={field.id}>
+                        <Fieldset>
+                            <Label>Especialidade</Label>
+                            <Input
+                                id="campo-especialidade"
+                                type="text"
+                                placeholder="Qual sua especialidade?"
+                                {...register(
+                                    `especialidades.${index}.especialidade`
+                                )}
+                            />
+                        </Fieldset>
+                        <FormContainer>
+                            <Fieldset>
+                                <Label>Ano de conclusão</Label>
+                                <Input
+                                    id="campo-ano-conclusao"
+                                    type="text"
+                                    placeholder="2005"
+                                    {...register(
+                                        `especialidades.${index}.anoConclusao`
+                                    )}
+                                />
+                            </Fieldset>
+                            <Fieldset>
+                                <Label>Instituição de ensino</Label>
+                                <Input
+                                    id="campo-instituicao-ensino"
+                                    type="text"
+                                    placeholder="USP"
+                                    {...register(
+                                        `especialidades.${index}.instituicao`
+                                    )}
+                                />
+                            </Fieldset>
+                        </FormContainer>
+                        <Divisor />
+                    </div>
+                ))}
                 <ButtonContainer>
                     <Button type="button" $variante="secundario">
                         Adicionar Especialidade
