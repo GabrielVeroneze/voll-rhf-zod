@@ -1,5 +1,6 @@
 import { useFieldArray, useForm } from 'react-hook-form'
-import type { CadastroEspecialistaSchemaType } from '@/schemas/cadastroEspecialistaSchema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { cadastroEspecialistaSchema, type CadastroEspecialistaSchemaType } from '@/schemas/cadastroEspecialistaSchema'
 import Button from '@/components/Button'
 import ButtonContainer from '@/components/ButtonContainer'
 import Divisor from '@/components/Divisor'
@@ -9,13 +10,21 @@ import FormContainer from '@/components/FormContainer'
 import Input from '@/components/Input'
 import Label from '@/components/Label'
 import Titulo from '@/components/Titulo'
+import ErrorMessage from '@/components/ErrorMessage'
 
 const EspecialistaTecnico = () => {
     const {
         register,
         handleSubmit,
         control,
-    } = useForm<CadastroEspecialistaSchemaType>()
+        formState: { errors },
+    } = useForm<CadastroEspecialistaSchemaType>({
+        mode: 'all',
+        resolver: zodResolver(cadastroEspecialistaSchema),
+        defaultValues: {
+            crm: '',
+        },
+    })
 
     const { fields, append } = useFieldArray({
         name: 'especialidades',
@@ -44,8 +53,12 @@ const EspecialistaTecnico = () => {
                         id="campo-crm"
                         type="text"
                         placeholder="Insira seu número de registro"
+                        $error={!!errors.crm}
                         {...register('crm')}
                     />
+                    {errors.crm && (
+                        <ErrorMessage>{errors.crm.message}</ErrorMessage>
+                    )}
                 </Fieldset>
                 <Divisor />
                 {fields.map((field, index) => (
@@ -56,10 +69,16 @@ const EspecialistaTecnico = () => {
                                 id="campo-especialidade"
                                 type="text"
                                 placeholder="Qual sua especialidade?"
+                                $error={!!errors.especialidades?.[index]?.especialidade}
                                 {...register(
                                     `especialidades.${index}.especialidade`
                                 )}
                             />
+                            {errors.especialidades?.[index]?.especialidade && (
+                                <ErrorMessage>
+                                    {errors.especialidades[index].especialidade.message}
+                                </ErrorMessage>
+                            )}
                         </Fieldset>
                         <FormContainer>
                             <Fieldset>
@@ -68,10 +87,16 @@ const EspecialistaTecnico = () => {
                                     id="campo-ano-conclusao"
                                     type="text"
                                     placeholder="2005"
+                                    $error={!!errors.especialidades?.[index]?.anoConclusao}
                                     {...register(
                                         `especialidades.${index}.anoConclusao`
                                     )}
                                 />
+                                {errors.especialidades?.[index]?.anoConclusao && (
+                                    <ErrorMessage>
+                                        {errors.especialidades[index].anoConclusao.message}
+                                    </ErrorMessage>
+                                )}
                             </Fieldset>
                             <Fieldset>
                                 <Label>Instituição de ensino</Label>
@@ -79,10 +104,16 @@ const EspecialistaTecnico = () => {
                                     id="campo-instituicao-ensino"
                                     type="text"
                                     placeholder="USP"
+                                    $error={!!errors.especialidades?.[index]?.instituicao}
                                     {...register(
                                         `especialidades.${index}.instituicao`
                                     )}
                                 />
+                                {errors.especialidades?.[index]?.instituicao && (
+                                    <ErrorMessage>
+                                        {errors.especialidades[index].instituicao.message}
+                                    </ErrorMessage>
+                                )}
                             </Fieldset>
                         </FormContainer>
                         <Divisor />
