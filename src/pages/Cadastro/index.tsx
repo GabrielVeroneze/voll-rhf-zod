@@ -1,11 +1,11 @@
 import Logotipo from '@/components/Logotipo'
-import EspecialistaTecnico from './EspecialistaTecnico'
+import EspecialistaEndereco from './EspecialistaEndereco'
 
 const Cadastro = () => {
     return (
         <>
             <Logotipo />
-            <EspecialistaTecnico />
+            <EspecialistaEndereco />
         </>
     )
 }
