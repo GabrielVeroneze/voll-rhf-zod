@@ -23,7 +23,9 @@ const EspecialistaEndereco = () => {
         register,
         handleSubmit,
         formState: { errors },
+        setError,
         setValue,
+        watch,
         control,
     } = useForm<CadastroEspecialistaEnderecoSchemaType>({
         mode: 'all',
@@ -39,12 +41,21 @@ const EspecialistaEndereco = () => {
         },
     })
 
-    const fetchEndereco = async (cep: string) => {
-        const dados = await buscarEndereco(cep)
+    const cepDigitado = watch('endereco.cep')
 
-        setValue('endereco.rua', dados.logradouro)
-        setValue('endereco.bairro', dados.bairro)
-        setValue('endereco.localidade', `${dados.localidade}, ${dados.uf}`)
+    const fetchEndereco = async (cep: string) => {
+        try {
+            const dados = await buscarEndereco(cep)
+
+            setValue('endereco.rua', dados.logradouro)
+            setValue('endereco.bairro', dados.bairro)
+            setValue('endereco.localidade', `${dados.localidade}, ${dados.uf}`)
+        } catch {
+            setError('endereco.cep', {
+                type: 'manual',
+                message: 'CEP inválido',
+            })
+        }
     }
 
     const aoSubmeter = (dados: CadastroEspecialistaEnderecoSchemaType) => {
@@ -86,6 +97,7 @@ const EspecialistaEndereco = () => {
                                 type="text"
                                 $error={!!errors.endereco?.cep}
                                 {...field}
+                                onBlur={() => fetchEndereco(cepDigitado)}
                             />
                             {errors.endereco?.cep && (
                                 <ErrorMessage>
