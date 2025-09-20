@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { buscarEndereco } from '@/services/endereco'
 import { cadastroEspecialistaEnderecoSchema, type CadastroEspecialistaEnderecoSchemaType } from '@/schemas/cadastroEspecialistaEnderecoSchema'
@@ -24,6 +24,7 @@ const EspecialistaEndereco = () => {
         handleSubmit,
         formState: { errors },
         setValue,
+        control,
     } = useForm<CadastroEspecialistaEnderecoSchemaType>({
         mode: 'all',
         resolver: zodResolver(cadastroEspecialistaEnderecoSchema),
@@ -71,23 +72,29 @@ const EspecialistaEndereco = () => {
                     </UploadLabel>
                 </>
                 <Divisor />
-                <Fieldset>
-                    <Label htmlFor="campo-cep">CEP</Label>
-                    <InputMask
-                        format="#####-###"
-                        mask="_"
-                        id="campo-cep"
-                        placeholder="Insira seu CEP"
-                        type="text"
-                        $error={!!errors.endereco?.cep}
-                        {...register('endereco.cep')}
-                    />
-                    {errors.endereco?.cep && (
-                        <ErrorMessage>
-                            {errors.endereco.cep.message}
-                        </ErrorMessage>
+                <Controller
+                    control={control}
+                    name="endereco.cep"
+                    render={({ field }) => (
+                        <Fieldset>
+                            <Label htmlFor="campo-cep">CEP</Label>
+                            <InputMask
+                                format="#####-###"
+                                mask="_"
+                                id="campo-cep"
+                                placeholder="Insira seu CEP"
+                                type="text"
+                                $error={!!errors.endereco?.cep}
+                                {...field}
+                            />
+                            {errors.endereco?.cep && (
+                                <ErrorMessage>
+                                    {errors.endereco.cep.message}
+                                </ErrorMessage>
+                            )}
+                        </Fieldset>
                     )}
-                </Fieldset>
+                />
                 <Fieldset>
                     <Label htmlFor="campo-rua">Rua</Label>
                     <Input
