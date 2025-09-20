@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { buscarEndereco } from '@/services/endereco'
 import { cadastroEspecialistaEnderecoSchema, type CadastroEspecialistaEnderecoSchemaType } from '@/schemas/cadastroEspecialistaEnderecoSchema'
 import Button from '@/components/Button'
 import Divisor from '@/components/Divisor'
@@ -22,6 +23,7 @@ const EspecialistaEndereco = () => {
         register,
         handleSubmit,
         formState: { errors },
+        setValue,
     } = useForm<CadastroEspecialistaEnderecoSchemaType>({
         mode: 'all',
         resolver: zodResolver(cadastroEspecialistaEnderecoSchema),
@@ -35,6 +37,14 @@ const EspecialistaEndereco = () => {
             },
         },
     })
+
+    const fetchEndereco = async (cep: string) => {
+        const dados = await buscarEndereco(cep)
+
+        setValue('endereco.rua', dados.logradouro)
+        setValue('endereco.bairro', dados.bairro)
+        setValue('endereco.localidade', `${dados.localidade}, ${dados.uf}`)
+    }
 
     const aoSubmeter = (dados: CadastroEspecialistaEnderecoSchemaType) => {
         console.log(dados)
