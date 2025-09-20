@@ -15,11 +15,13 @@ import UploadIcon from '@/components/UploadIcon'
 import UploadInput from '@/components/UploadInput'
 import UploadLabel from '@/components/UploadLabel'
 import UploadTitulo from '@/components/UploadTitulo'
+import ErrorMessage from '@/components/ErrorMessage'
 
 const EspecialistaEndereco = () => {
     const {
         register,
         handleSubmit,
+        formState: { errors },
     } = useForm<CadastroEspecialistaEnderecoSchemaType>({
         mode: 'all',
         resolver: zodResolver(cadastroEspecialistaEnderecoSchema),
@@ -67,8 +69,14 @@ const EspecialistaEndereco = () => {
                         id="campo-cep"
                         placeholder="Insira seu CEP"
                         type="text"
+                        $error={!!errors.endereco?.cep}
                         {...register('endereco.cep')}
                     />
+                    {errors.endereco?.cep && (
+                        <ErrorMessage>
+                            {errors.endereco.cep.message}
+                        </ErrorMessage>
+                    )}
                 </Fieldset>
                 <Fieldset>
                     <Label htmlFor="campo-rua">Rua</Label>
@@ -76,8 +84,14 @@ const EspecialistaEndereco = () => {
                         id="campo-rua"
                         placeholder="Rua Agarikov"
                         type="text"
+                        $error={!!errors.endereco?.rua}
                         {...register('endereco.rua')}
                     />
+                    {errors.endereco?.rua && (
+                        <ErrorMessage>
+                            {errors.endereco.rua.message}
+                        </ErrorMessage>
+                    )}
                 </Fieldset>
                 <FormContainer>
                     <Fieldset>
@@ -86,8 +100,14 @@ const EspecialistaEndereco = () => {
                             id="campo-numero-rua"
                             placeholder="Ex: 1440"
                             type="text"
+                            $error={!!errors.endereco?.numero}
                             {...register('endereco.numero')}
                         />
+                        {errors.endereco?.numero && (
+                            <ErrorMessage>
+                                {errors.endereco.numero.message}
+                            </ErrorMessage>
+                        )}
                     </Fieldset>
                     <Fieldset>
                         <Label htmlFor="campo-bairro">Bairro</Label>
@@ -95,8 +115,14 @@ const EspecialistaEndereco = () => {
                             id="campo-bairro"
                             placeholder="Vila Mariana"
                             type="text"
+                            $error={!!errors.endereco?.bairro}
                             {...register('endereco.bairro')}
                         />
+                        {errors.endereco?.bairro && (
+                            <ErrorMessage>
+                                {errors.endereco.bairro.message}
+                            </ErrorMessage>
+                        )}
                     </Fieldset>
                 </FormContainer>
                 <Fieldset>
@@ -105,8 +131,14 @@ const EspecialistaEndereco = () => {
                         id="campo-localidade"
                         placeholder="São Paulo, SP"
                         type="text"
+                        $error={!!errors.endereco?.localidade}
                         {...register('endereco.localidade')}
                     />
+                    {errors.endereco?.localidade && (
+                        <ErrorMessage>
+                            {errors.endereco.localidade.message}
+                        </ErrorMessage>
+                    )}
                 </Fieldset>
                 <Button type="submit">Cadastrar</Button>
             </Form>
