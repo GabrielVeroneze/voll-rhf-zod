@@ -1,3 +1,6 @@
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { cadastroEspecialistaEnderecoSchema, type CadastroEspecialistaEnderecoSchemaType } from '@/schemas/cadastroEspecialistaEnderecoSchema'
 import Button from '@/components/Button'
 import Divisor from '@/components/Divisor'
 import Fieldset from '@/components/Fieldset'
@@ -14,13 +17,30 @@ import UploadLabel from '@/components/UploadLabel'
 import UploadTitulo from '@/components/UploadTitulo'
 
 const EspecialistaEndereco = () => {
+    const {
+        register,
+        handleSubmit,
+    } = useForm<CadastroEspecialistaEnderecoSchemaType>({
+        mode: 'all',
+        resolver: zodResolver(cadastroEspecialistaEnderecoSchema),
+        defaultValues: {
+            endereco: {
+                cep: '',
+                rua: '',
+                numero: 0,
+                bairro: '',
+                localidade: '',
+            },
+        },
+    })
+
     return (
         <>
             <Titulo className="titulo">
                 Para finalizar, só alguns detalhes!
             </Titulo>
             <Form>
-                <div>
+                <>
                     <UploadTitulo>Sua foto</UploadTitulo>
                     <UploadLabel htmlFor="campo-upload">
                         <UploadIcon />
@@ -33,7 +53,7 @@ const EspecialistaEndereco = () => {
                             type="file"
                         />
                     </UploadLabel>
-                </div>
+                </>
                 <Divisor />
                 <Fieldset>
                     <Label htmlFor="campo-cep">CEP</Label>
