@@ -34,12 +34,16 @@ const EspecialistaEndereco = () => {
         },
     })
 
+    const aoSubmeter = (dados: CadastroEspecialistaEnderecoSchemaType) => {
+        console.log(dados)
+    }
+
     return (
         <>
             <Titulo className="titulo">
                 Para finalizar, só alguns detalhes!
             </Titulo>
-            <Form>
+            <Form onSubmit={handleSubmit(aoSubmeter)}>
                 <>
                     <UploadTitulo>Sua foto</UploadTitulo>
                     <UploadLabel htmlFor="campo-upload">
@@ -63,6 +67,7 @@ const EspecialistaEndereco = () => {
                         id="campo-cep"
                         placeholder="Insira seu CEP"
                         type="text"
+                        {...register('endereco.cep')}
                     />
                 </Fieldset>
                 <Fieldset>
@@ -71,6 +76,7 @@ const EspecialistaEndereco = () => {
                         id="campo-rua"
                         placeholder="Rua Agarikov"
                         type="text"
+                        {...register('endereco.rua')}
                     />
                 </Fieldset>
                 <FormContainer>
@@ -80,6 +86,7 @@ const EspecialistaEndereco = () => {
                             id="campo-numero-rua"
                             placeholder="Ex: 1440"
                             type="text"
+                            {...register('endereco.numero')}
                         />
                     </Fieldset>
                     <Fieldset>
@@ -88,6 +95,7 @@ const EspecialistaEndereco = () => {
                             id="campo-bairro"
                             placeholder="Vila Mariana"
                             type="text"
+                            {...register('endereco.bairro')}
                         />
                     </Fieldset>
                 </FormContainer>
@@ -97,6 +105,7 @@ const EspecialistaEndereco = () => {
                         id="campo-localidade"
                         placeholder="São Paulo, SP"
                         type="text"
+                        {...register('endereco.localidade')}
                     />
                 </Fieldset>
                 <Button type="submit">Cadastrar</Button>
