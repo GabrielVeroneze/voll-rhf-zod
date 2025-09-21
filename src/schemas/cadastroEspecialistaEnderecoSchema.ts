@@ -3,8 +3,8 @@ import { z } from 'zod'
 export const cadastroEspecialistaEnderecoSchema = z.object({
     endereco: z.object({
         avatar: z
-            .instanceof(FileList)
-            .transform((lista) => lista.item(0)!),
+            .any()
+            .transform((lista: FileList) => lista.item(0)!),
         cep: z
             .string()
             .min(9, 'Informe um CEP válido'),
