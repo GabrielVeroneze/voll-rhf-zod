@@ -32,6 +32,7 @@ const EspecialistaEndereco = () => {
         resolver: zodResolver(cadastroEspecialistaEnderecoSchema),
         defaultValues: {
             endereco: {
+                avatar: new File([''], 'dummy.jpg', { type: 'image/jpeg' }),
                 cep: '',
                 rua: '',
                 numero: 0,
@@ -79,7 +80,13 @@ const EspecialistaEndereco = () => {
                             accept="image/*"
                             id="campo-upload"
                             type="file"
+                            {...register('endereco.avatar')}
                         />
+                        {errors.endereco?.avatar && (
+                            <ErrorMessage>
+                                {errors.endereco.avatar.message}
+                            </ErrorMessage>
+                        )}
                     </UploadLabel>
                 </>
                 <Divisor />
