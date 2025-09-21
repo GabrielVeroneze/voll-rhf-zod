@@ -4,6 +4,9 @@ export const cadastroEspecialistaEnderecoSchema = z.object({
     endereco: z.object({
         avatar: z
             .any()
+            .refine((valor) => valor instanceof FileList && valor.length > 0, {
+                message: 'Informe um arquivo de avatar',
+            })
             .transform((lista: FileList) => lista.item(0)!),
         cep: z
             .string()
