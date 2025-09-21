@@ -1,6 +1,7 @@
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { buscarEndereco } from '@/services/endereco'
+import { supabase } from '@/libs/supabase'
 import { cadastroEspecialistaEnderecoSchema, type CadastroEspecialistaEnderecoSchemaType } from '@/schemas/cadastroEspecialistaEnderecoSchema'
 import Button from '@/components/Button'
 import Divisor from '@/components/Divisor'
@@ -59,7 +60,11 @@ const EspecialistaEndereco = () => {
         }
     }
 
-    const aoSubmeter = (dados: CadastroEspecialistaEnderecoSchemaType) => {
+    const aoSubmeter = async (dados: CadastroEspecialistaEnderecoSchemaType) => {
+        await supabase.storage
+            .from('react-forms')
+            .upload(dados.endereco.avatar.name, dados.endereco.avatar)
+
         console.log(dados)
     }
 
